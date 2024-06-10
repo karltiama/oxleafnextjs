@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { getPokemonList, getPokemonDetails } from "@/lib/pokeApi";
 
