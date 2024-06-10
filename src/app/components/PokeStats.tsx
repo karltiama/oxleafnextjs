@@ -1,7 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { getPokemonList, getPokemonDetails } from "@/lib/pokeApi";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 
 interface Pokemon {
 	name: string;
@@ -34,7 +42,7 @@ const PokeStats = () => {
 		getPokemonList()
 			.then((data) => {
 				setPokemonList(data.results);
-				console.log(data.results);
+				console.log("Pokemon list:", data.results);
 			})
 			.catch((error) => {
 				console.error("Failed to fetch Pokemon list:", error);
@@ -50,6 +58,7 @@ const PokeStats = () => {
 			getPokemonDetails(selectedPokemon)
 				.then((data) => {
 					setPokemonDetails(data);
+					console.log("Pokemon details:", data);
 				})
 				.catch((error) => {
 					console.error("Failed to fetch Pokemon details:", error);
@@ -62,7 +71,48 @@ const PokeStats = () => {
 
 	return (
 		<div>
-			<h1>Pokemon Stats</h1>
+			<Card className="w-[350px]">
+				<CardHeader>
+					<CardTitle>Pokemon Stats</CardTitle>
+					<CardContent>
+						<Select
+							onValueChange={(value: string) => setSelectedPokemon(value)}>
+							<SelectTrigger>
+								<SelectValue placeholder="Select Pokemon" />
+								<SelectContent>
+									{pokemonList.map((pokemon) => (
+										<SelectItem key={pokemon.name} value={pokemon.name}>
+											{pokemon.name}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</SelectTrigger>
+						</Select>
+						{isLoading ? (
+							<div>Loading...</div>
+						) : (
+							pokemonDetails && (
+								<div>
+									<CardTitle>{pokemonDetails.name}</CardTitle>
+									<img
+										src={pokemonDetails.sprites.front_default}
+										alt={pokemonDetails.name}
+									/>
+									<ul>
+										{pokemonDetails.stats.map((stat) => (
+											<li key={stat.stat.name}>
+												{stat.stat.name}: {stat.base_stat}
+											</li>
+										))}
+									</ul>
+								</div>
+							)
+						)}
+					</CardContent>
+				</CardHeader>
+			</Card>
+
+			{/* <h1>Pokemon Stats</h1>
 			<select
 				value={selectedPokemon}
 				onChange={(e) => setSelectedPokemon(e.target.value)}>
@@ -92,7 +142,7 @@ const PokeStats = () => {
 						</ul>
 					</div>
 				)
-			)}
+			)} */}
 		</div>
 	);
 };
