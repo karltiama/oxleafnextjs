@@ -10,6 +10,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 
 interface Pokemon {
 	name: string;
@@ -70,46 +71,48 @@ const PokeStats = () => {
 	}, [selectedPokemon]);
 
 	return (
-		<div>
-			<Card className="w-[350px]">
+		<div className="flex items-center justify-center min-h-screen">
+			<Card className="w-[350px] p-8">
 				<CardHeader>
 					<CardTitle>Pokemon Stats</CardTitle>
-					<CardContent>
-						<Select
-							onValueChange={(value: string) => setSelectedPokemon(value)}>
-							<SelectTrigger>
-								<SelectValue placeholder="Select Pokemon" />
-								<SelectContent>
-									{pokemonList.map((pokemon) => (
-										<SelectItem key={pokemon.name} value={pokemon.name}>
-											{pokemon.name}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</SelectTrigger>
-						</Select>
-						{isLoading ? (
-							<div>Loading...</div>
-						) : (
-							pokemonDetails && (
-								<div>
-									<CardTitle>{pokemonDetails.name}</CardTitle>
-									<img
-										src={pokemonDetails.sprites.front_default}
-										alt={pokemonDetails.name}
-									/>
-									<ul>
-										{pokemonDetails.stats.map((stat) => (
-											<li key={stat.stat.name}>
-												{stat.stat.name}: {stat.base_stat}
-											</li>
-										))}
-									</ul>
-								</div>
-							)
-						)}
-					</CardContent>
 				</CardHeader>
+				<CardContent>
+					<Select
+						onValueChange={(value: string) => setSelectedPokemon(value)}>
+						<SelectTrigger>
+							<SelectValue placeholder="Select Pokemon" />
+							<SelectContent>
+								{pokemonList.map((pokemon) => (
+									<SelectItem key={pokemon.name} value={pokemon.name}>
+										{pokemon.name}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</SelectTrigger>
+					</Select>
+					{isLoading ? (
+						<div>Loading...</div>
+					) : (
+						pokemonDetails && (
+							<div className="flex flex-col">
+								<Separator className="my-4"/>
+								<CardTitle>{pokemonDetails.name}</CardTitle>
+								<img
+									src={pokemonDetails.sprites.front_default}
+									alt={pokemonDetails.name}
+								/>
+								<ul>
+									{pokemonDetails.stats.map((stat) => (
+										<li key={stat.stat.name}>
+											{stat.stat.name}: {stat.base_stat}
+										</li>
+									))}
+								</ul>
+							</div>
+						)
+					)}
+				</CardContent>
+				
 			</Card>
 
 			{/* <h1>Pokemon Stats</h1>
