@@ -77,8 +77,7 @@ const PokeStats = () => {
 					<CardTitle>Pokemon Stats</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<Select
-						onValueChange={(value: string) => setSelectedPokemon(value)}>
+					<Select onValueChange={(value: string) => setSelectedPokemon(value)}>
 						<SelectTrigger>
 							<SelectValue placeholder="Select Pokemon" />
 							<SelectContent>
@@ -95,7 +94,7 @@ const PokeStats = () => {
 					) : (
 						pokemonDetails && (
 							<div className="flex flex-col">
-								<Separator className="my-4"/>
+								<Separator className="my-4" />
 								<CardTitle>{pokemonDetails.name}</CardTitle>
 								<img
 									src={pokemonDetails.sprites.front_default}
@@ -112,7 +111,6 @@ const PokeStats = () => {
 						)
 					)}
 				</CardContent>
-				
 			</Card>
 
 			{/* <h1>Pokemon Stats</h1>
